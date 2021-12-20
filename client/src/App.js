@@ -1,36 +1,53 @@
-import { useSocket } from './hooks/useSocket';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { listen, send } from './common/socket';
 
 import Tickers from './components/Tickers/Tickers';
 import './App.css';
-import { IntervalSelect } from './components/IntervalSelect/IntervalSelect';
+import { Select } from './components/Select/Select';
 import { Section } from './components/Section/Section';
 import { getDisabledTickers } from './store/actions/actions';
 import { getData } from './store/actions/actions';
+import { setIntervalQuotes } from './common/socket';
 
 
 const App = () => {
-
-  const [listen, send] = useSocket();
   const dispatch = useDispatch();
 
   useEffect(() => {
     listen('connect', () => {
       send('start');
+      listen('ticker', (qoutes) => {
+        dispatch(getData(qoutes));
+      })
     })
     dispatch(getDisabledTickers());
   }, []);
-
-  listen('ticker', (qoutes) => {
-    dispatch(getData(qoutes));
-  })
 
   return (
     <div className="App">
       <div className="container">
         <Section styleClass={'d-flex justify-end'}>
-          <IntervalSelect/>
+          <Select doFunction={setIntervalQuotes} options={
+            [
+              {
+                value: 1000,
+                optionName: '1s',
+              },
+              {
+                value: 3000,
+                optionName: '3s',
+              },
+              {
+                value: 5000,
+                optionName: '5s',
+              },
+              {
+                value: 10000,
+                optionName: '10s',
+              },
+            ]
+          }/>
         </Section>
         <Section>
           <Tickers/>
