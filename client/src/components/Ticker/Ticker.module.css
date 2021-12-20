@@ -1,0 +1,77 @@
+.tickerWrapper{
+  border-top: 1px solid #e8eaed;
+  height: 50px;
+  align-items: center;
+  transition: 0.3s all ease;
+  overflow: hidden;
+}
+.tickerWrapper > div{
+  flex: 1;
+}
+.tickerRemove{
+  height: 0;
+  opacity: 0;
+}
+.tickerName{
+  display: inline;
+  padding: 6px;
+  text-align: center;
+  color: #fff;
+  transition: 0.2s background ease;
+}
+.tickerName.disableClass{
+  background: #cccccc !important;
+}
+.ticker{
+  text-align: left;
+  flex: 2 !important;
+}
+.percent div{
+  width: 50px;
+  padding: 6px;
+}
+.percent .negative{
+  color: #a50e0e;
+  background: #ff00003a;
+}
+.percent .positive{
+  color: #137333;
+  background: #1373333a;
+}
+.percent .noChange{
+  color: #3c4043;
+  background: #3c40433a;
+}
+.priceChange.positive{
+  color: #137333;
+}
+.priceChange.negative{
+  color: #a50e0e;
+}
+.priceChange.noChange{
+  color: #3c4043;
+}
+.priceChange.positive:before{
+  content: '+';
+}
+.priceChange.negative:before{
+  content: '-';
+}
+.removeButton{
+  padding: 5px;
+  background: #ff00003a;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  color: #fff;
+  line-height: 1;
+  cursor: pointer;
+  transition: 0.3s background ease;
+  font-size: 12px;
+}
+.removeButton:hover{
+  background: #ff0000;
+}
+.tickerTools > div:not(:last-child) {
+  margin-right: 10px;
+}

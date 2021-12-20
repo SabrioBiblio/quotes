@@ -1,0 +1,26 @@
+.checkbox{
+  width: 40px;
+  height: 20px;
+  border-radius: 10px;
+  background: gainsboro;
+  padding: 0;
+  position: relative;
+  cursor: pointer;
+}
+.checkbox::after{
+  content: '';
+  width: 20px;
+  height: 20px;
+  background: #c71616;
+  border-radius: 50%;
+  position: absolute;
+  transition: 0.2s all ease;
+  left: 0;
+}
+.checkbox.on{
+  background: #1baf4c50;
+}
+.checkbox.on::after{
+  background: #1baf4c;
+  left: 50%;
+}
