@@ -7,6 +7,7 @@
 }
 .tickerWrapper > div{
   flex: 1;
+  position: relative;
 }
 .tickerRemove{
   height: 0;
@@ -19,7 +20,7 @@
   color: #fff;
   transition: 0.2s background ease;
 }
-.tickerName.disableClass{
+.disableClass .tickerName{
   background: #cccccc !important;
 }
 .ticker{
@@ -41,6 +42,22 @@
 .percent .noChange{
   color: #3c4043;
   background: #3c40433a;
+}
+.disableClass span{
+  position: relative;
+  opacity: 0;
+}
+.disableClass .priceChange::before{
+  display: none;
+}
+.disableClass .price::after,
+.disableClass .priceChange::after,
+.disableClass .profit::after,
+.disableClass .dividend::after{
+  position: absolute;
+  left: 0;
+  right: 0;
+  content: '-';
 }
 .priceChange.positive{
   color: #137333;

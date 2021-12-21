@@ -10,15 +10,29 @@ export const getStorage = (key) => {
   return JSON.parse(localStorage.getItem(key));
 }
 
-export const actionTicker = (key, quote) => {
-  let quotes = getStorage(key);
+export const deletingQuotes = (quote) => {
+  const keyStorage = 'exclude_quotes';
+  return changeStorage(keyStorage, quote);
+}
+
+export const addQuote = (quote) => {
+  const keyStorage = 'exclude_quotes';
+  return changeStorage(keyStorage, quote);
+}
+
+export const disablingQuotes = (quote) => {
+  const keyStorage = 'disabled_tickers';
+  return changeStorage(keyStorage, quote);
+}
+
+const changeStorage = (storage, quote) => {
+  let quotes = getStorage(storage);
   quotes.includes(quote)
   ?
   quotes.splice(quotes.indexOf(quote), 1)
   :
   quotes.push(quote);
-  setStorage(key, quotes, false);
-  console.log(quotes)
+  setStorage(storage, quotes, false);
   return quotes;
 }
 

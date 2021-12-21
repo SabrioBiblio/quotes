@@ -3,25 +3,20 @@ import React, { useState, useEffect } from 'react';
 import s from './Ticker.module.css'
 import colors from './TickerColors/TickerColor'
 import { Checkbox } from '../Checkbox/Checkbox';
-import { actionTicker } from '../../common/common'
-import { getStorage } from '../../common/common';
+import { deletingQuotes, getStorage } from '../../common/common'
+import { useSelector } from 'react-redux';
 
 
 const Ticker = (props) => {
+  const disableTicker = useSelector((state) => state.disabledTickers);
+
   const [display, setDisplay] = useState(true);
   const [removeClass, setRemove] = useState('');
-  const [disabled, disableUpdate] = useState(false);
-
-  let disableClass = disabled ? s.on : s.off;
+  const [disabled, disableUpdate] = useState(disableTicker.includes(props.ticker.current.ticker));
 
   const USD = 27;
-
+  
   useEffect(() => {
-    const disableTicker = getStorage('disabled_tickers');
-    if(disableTicker.includes(props.ticker.current.ticker)){
-      disableUpdate(true)
-    }
-
     return () => {
       setRemove('')
     }
@@ -39,16 +34,16 @@ const Ticker = (props) => {
     price,
     change,
     dividend,
-    yield: profit
+    yield: profit,
+    exchange,
   } = props.ticker.current;
 
   const {
-    exchange,
     price: oldPrice,
     change: oldChange
   } = props.ticker.oldTicker;
 
-  const changePercent = (((oldPrice/oldChange) - (price/change))/(price/change)) * 100;
+  const changePercent = oldChange !== '0' ? (((oldPrice/oldChange) - (price/change))/(price/change)) * 100 : 0;
 
   const changeClass = (value) => {
     if (value === 0){
@@ -65,71 +60,37 @@ const Ticker = (props) => {
   }
 
   const removeTicker = () => {
-    actionTicker('exclude_quotes', ticker);
+    deletingQuotes(ticker);
     setRemove(s.tickerRemove);
     setTimeout(() => {
       setDisplay(false);
     }, 300)
   }
-
-  if(disabled){
-    return (
-      <div className={`d-flex justify-sb ${s.tickerWrapper} ${removeClass}`}>
-      <div className={s.ticker}>
-        <div className={`${s.tickerName} ${s.disableClass} brd-r-5 dflt-box-sh`} style={{background: changeColor()}}>
-          {ticker}/{exchange}
-        </div>
-      </div>
-      <div className={s.price}>-</div>
-      <div className={s.priceChange}>
-        -
-      </div>
-      <div>
-        -
-      </div>
-      <div>-</div>
-      <div className={`${s.percent} justify-end d-flex`}>
-        <div className={`${s.noChange} brd-r-5 dflt-box-sh`}>
-          -%
-        </div>
-      </div>
-      <div
-        className={`${s.tickerTools} d-flex justify-end align-i-center`}
-      >
-        <Checkbox
-          disableState={disabled}
-          disableStateUpdate={disableUpdate}
-          ticker={ticker}
-        />
-        <div 
-          onClick={() => removeTicker(ticker)}
-          className={`${s.removeButton} align-i-center justify-center d-flex`}
-        >
-          ✕  
-        </div>
-      </div>
-    </div>
-    )
-  }
   
   return (
-    <div className={`d-flex justify-sb ${s.tickerWrapper} ${removeClass}`}>
+    <div className={`d-flex justify-sb ${s.tickerWrapper} ${removeClass} ${disabled ? s.disableClass : ''}`}>
       <div className={s.ticker}>
         <div className={`${s.tickerName} brd-r-5 dflt-box-sh`} style={{background: changeColor()}}>
           {ticker}/{exchange}
         </div>
       </div>
-      <div className={s.price}>{(USD * (price / change)).toFixed(2)} $</div>
+      <div className={s.price}>
+        <span>{oldPrice === '0' && oldChange === '0' ? '-' : (USD * (price / change)).toFixed(2)} $</span>
+      </div>
       <div className={`${s.priceChange} ${changeClass(changePercent)}`}>
-        <span>{Math.abs((USD * ((oldPrice/oldChange) - (price/change)))).toFixed(2)} $</span>
+        <span>{
+        oldPrice === '0' && oldChange === '0' ? '-' : Math.abs((USD * ((oldPrice/oldChange) - (price/change)))).toFixed(2)
+        } $</span>
       </div>
-      <div>
-        {profit}
+      <div className={s.profit}>
+        <span>{profit}</span>
       </div>
-      <div>{dividend}</div>
+      <div className={s.dividend}>
+        <span>{dividend}</span>
+      </div>
       <div className={`${s.percent} justify-end d-flex`}>
         <div className={`${changeClass(changePercent)} brd-r-5 dflt-box-sh`}>
-          {Math.abs(changePercent).toFixed(1)}%
+          {oldPrice === '0' && oldChange === '0' ? '-' : Math.abs(changePercent).toFixed(1)}%
         </div>
       </div>
       <div

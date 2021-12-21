@@ -6,7 +6,7 @@ const initState = {
 
 const reducer = (state = initState, action) => {
   switch (action.type){
-    case 'GET_DATA':
+    case 'ADD_DATA':
       return {
         ...state,
         current: [...action.payload],
@@ -16,6 +16,12 @@ const reducer = (state = initState, action) => {
       return {
         ...state,
         disabledTickers: [...action.payload]
+      }
+    case 'ADD_TICKER':
+      return {
+        ...state,
+        current: [...state.current, action.payload],
+        old: [...state.old, action.payload]
       }
     default:
       return state;

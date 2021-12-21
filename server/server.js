@@ -4,7 +4,7 @@ const http = require('http');
 const io = require('socket.io');
 const cors = require('cors');
 
-let FETCH_INTERVAL = 5000;
+let FETCH_INTERVAL = 50000;
 const PORT = process.env.PORT || 4000;
 
 const tickers = [

@@ -13,7 +13,7 @@ const Tickers = () => {
         {tickersCurrent.map((quote, i) => {
           return <Ticker ticker={{
             current: quote,
-            oldTicker: tickerOld.length > 0 ? tickerOld[i] : quote,
+            oldTicker: tickerOld.some((old) => old.ticker === quote.ticker) ? tickerOld.find((quoteOld) => quoteOld.ticker === quote.ticker) : quote,
           }}
           key={uniqId(i)}/>
         })}

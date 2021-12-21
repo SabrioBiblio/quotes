@@ -1,34 +1,34 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { listen, send } from './common/socket';
 
 import Tickers from './components/Tickers/Tickers';
 import './App.css';
 import { Select } from './components/Select/Select';
 import { Section } from './components/Section/Section';
-import { getDisabledTickers } from './store/actions/actions';
-import { getData } from './store/actions/actions';
+import { initData, addTicker } from './store/actions/actions';
 import { setIntervalQuotes } from './common/socket';
+import { getStorage, addQuote } from './common/common';
 
 
 const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    listen('connect', () => {
-      send('start');
-      listen('ticker', (qoutes) => {
-        dispatch(getData(qoutes));
-      })
-    })
-    dispatch(getDisabledTickers());
+    dispatch(initData());
   }, []);
 
   return (
     <div className="App">
       <div className="container">
-        <Section styleClass={'d-flex justify-end'}>
-          <Select doFunction={setIntervalQuotes} options={
+        <Section styleClass={'d-flex justify-sb'}>
+          <Select 
+            dispatchFunc={addTicker}
+            itemStorage={'exclude_quotes'}
+            doFunc={addQuote}
+            options={getStorage('exclude_quotes')}
+          />
+          <Select 
+            doFunc={setIntervalQuotes} options={
             [
               {
                 value: 1000,
