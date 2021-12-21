@@ -4,7 +4,7 @@ const http = require('http');
 const io = require('socket.io');
 const cors = require('cors');
 
-let FETCH_INTERVAL = 50000;
+let FETCH_INTERVAL = 5000;
 const PORT = process.env.PORT || 4000;
 
 const tickers = [
@@ -72,9 +72,13 @@ app.get('/', function(req, res) {
 });
 
 socketServer.on('connection', (socket) => {
+  socket.on('delete_quote', (quote) => {
+    tickers.splice(tickers.indexOf(quote), 1)
+  });
+
   socket.on('change_interval', (interval) => {
     FETCH_INTERVAL = interval;
-  })
+  });
 
   socket.on('start', () => {
     trackTickers(socket);

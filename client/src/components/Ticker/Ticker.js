@@ -3,31 +3,18 @@ import React, { useState, useEffect } from 'react';
 import s from './Ticker.module.css'
 import colors from './TickerColors/TickerColor'
 import { Checkbox } from '../Checkbox/Checkbox';
-import { deletingQuotes, getStorage } from '../../common/common'
 import { useSelector } from 'react-redux';
+import { send } from '../../common/socket';
 
 
 const Ticker = (props) => {
   const disableTicker = useSelector((state) => state.disabledTickers);
 
   const [display, setDisplay] = useState(true);
+  const [disabled, setDisabled] = useState();
   const [removeClass, setRemove] = useState('');
-  const [disabled, disableUpdate] = useState(disableTicker.includes(props.ticker.current.ticker));
 
   const USD = 27;
-  
-  useEffect(() => {
-    return () => {
-      setRemove('')
-    }
-  }, []);
-
-  if(!display){
-    return (
-      <>
-      </>
-    )
-  }
 
   const {
     ticker,
@@ -37,6 +24,21 @@ const Ticker = (props) => {
     yield: profit,
     exchange,
   } = props.ticker.current;
+  
+  useEffect(() => {
+    disableTicker.includes(ticker) ? setDisabled(true) : setDisabled(false);
+
+    return () => {
+      setRemove('')
+    }
+  }, [disableTicker, ticker]);
+
+  if(!display){
+    return (
+      <>
+      </>
+    )
+  }
 
   const {
     price: oldPrice,
@@ -60,7 +62,7 @@ const Ticker = (props) => {
   }
 
   const removeTicker = () => {
-    deletingQuotes(ticker);
+    send('delete_quote', ticker)
     setRemove(s.tickerRemove);
     setTimeout(() => {
       setDisplay(false);
@@ -97,12 +99,12 @@ const Ticker = (props) => {
         className={`${s.tickerTools} d-flex justify-end align-i-center`}
       >
         <Checkbox
-          disableState={disabled}
-          disableStateUpdate={disableUpdate}
+          disabledState={disabled}
           ticker={ticker}
+          updateDisable={setDisabled}
         />
         <div 
-          onClick={() => removeTicker(ticker)}
+          onClick={() => removeTicker()}
           className={`${s.removeButton} align-i-center justify-center d-flex`}
         >
           ✕

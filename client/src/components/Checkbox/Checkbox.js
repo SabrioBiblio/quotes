@@ -1,22 +1,23 @@
 import React from 'react'
-import s from './Checkbox.module.css'
 import { useDispatch } from 'react-redux'
+import { initialDisableQuotes } from '../../store/actions/actions'
 
-import { setDisabledTickers } from '../../store/actions/actions'
+import { disablingQuotes } from '../../common/common'
+import s from './Checkbox.module.css';
 
-export const Checkbox = ({disableState, disableStateUpdate, ticker}) => {
-  const dispatch = useDispatch();
-  let checkBoxClass = disableState ? s.off : s.on;
+export const Checkbox = ({ticker, updateDisable, disabledState}) => {
+  let checkBoxClass = disabledState ? s.off : s.on;
+  const dispatch  = useDispatch();
 
   return (
-    <div onClick={
-        () => {
-          disableStateUpdate((state) => state = !state);
-          dispatch(setDisabledTickers(ticker));
+    <div
+      className={`${checkBoxClass} ${s.checkbox} dflt-box-sh`}
+      onClick={() => {
+          updateDisable((state) => state = !state)
+          disablingQuotes(ticker);
+          dispatch(initialDisableQuotes());
         }
-      } 
-      className={`${s.checkbox}
-      ${checkBoxClass} dflt-box-sh`}
+      }
     ></div>
   )
 } 

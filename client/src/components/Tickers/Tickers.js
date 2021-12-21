@@ -6,7 +6,7 @@ import { uniqId } from '../../common/common';
 const Tickers = () => {
   const tickersCurrent = useSelector((state) => state.current);
   const tickerOld = useSelector((state) => state.old);
-
+  
   return (
     <>
       <div>

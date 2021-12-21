@@ -22,7 +22,7 @@ export const addQuote = (quote) => {
 
 export const disablingQuotes = (quote) => {
   const keyStorage = 'disabled_tickers';
-  return changeStorage(keyStorage, quote);
+  changeStorage(keyStorage, quote);
 }
 
 const changeStorage = (storage, quote) => {
