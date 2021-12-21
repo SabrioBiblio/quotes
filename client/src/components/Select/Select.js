@@ -1,27 +1,31 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import s from './Select.module.css'
 
-export const Select = ({doFunc, options, dispatchFunc}) => {
-  const dispatch = useDispatch();
+export const Select = ({doFunc, options}) => {
   const selectRef = useRef('select');
+  const [optionsState, updateOptions] = useState(options);
+
+  if(!optionsState.length){
+    return (
+      <select
+      id={s.intervalSelect}
+      className='dflt-box-sh'
+    >
+    </select>
+    )
+  }
+
   return (
     <select
-      onChange={() => {
-        doFunc(selectRef.current.value);
-        if(dispatchFunc === Function){
-          dispatch(dispatchFunc(selectRef.current.value))
-        }else{
-          return;
-        };
-      }} 
+      onChange={() => doFunc(selectRef.current.value)} 
       id={s.intervalSelect}
       className='dflt-box-sh'
       name="select"
       ref={selectRef}
     >
-      {options.map((option) => 
+      {optionsState.map((option) => 
       <option 
         value={option.value}
       >

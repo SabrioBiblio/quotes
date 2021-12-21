@@ -16,6 +16,8 @@ const tickers = [
   'TSLA', // Tesla
 ];
 
+let deletedQuotes = [];
+
 function randomValue(min = 0, max = 1, precision = 0) {
   const random = Math.random() * (max - min) + min;
   return random.toFixed(precision);
@@ -38,6 +40,10 @@ function getQuotes(socket) {
     last_trade_time: utcDate(),
   }));
   socket.emit('ticker', quotes);
+}
+
+function getDesiabledQuotes(socket){
+  socket.emit('send_deleted_quotes', deletedQuotes);
 }
 
 function trackTickers(socket) {
@@ -72,7 +78,12 @@ app.get('/', function(req, res) {
 });
 
 socketServer.on('connection', (socket) => {
+  socket.on('get_deleted_quotes', () => {
+    getDesiabledQuotes(socket);
+  })
+
   socket.on('delete_quote', (quote) => {
+    deletedQuotes.push(quote)
     tickers.splice(tickers.indexOf(quote), 1)
   });
 

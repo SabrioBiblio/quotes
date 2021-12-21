@@ -1,3 +1,5 @@
+import { send } from "./socket"
+
 export const setStorage = (key, data) => {
   localStorage.setItem(key, JSON.stringify(data))
 } 
