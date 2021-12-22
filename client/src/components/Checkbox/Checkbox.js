@@ -7,8 +7,9 @@ import s from './Checkbox.module.css';
 
 export const Checkbox = ({ticker, updateDisable, disabledState}) => {
   let checkBoxClass = disabledState ? s.off : s.on;
-  const dispatch  = useDispatch();
 
+  const dispatch  = useDispatch();
+  
   return (
     <div
       className={`${checkBoxClass} ${s.checkbox} dflt-box-sh`}

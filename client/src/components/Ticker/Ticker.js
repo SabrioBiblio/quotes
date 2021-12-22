@@ -10,12 +10,6 @@ import { send } from '../../common/socket';
 const Ticker = (props) => {
   const disableTicker = useSelector((state) => state.disabledTickers);
 
-  const [display, setDisplay] = useState(true);
-  const [disabled, setDisabled] = useState();
-  const [removeClass, setRemove] = useState('');
-
-  const USD = 27;
-
   const {
     ticker,
     price,
@@ -24,9 +18,16 @@ const Ticker = (props) => {
     yield: profit,
     exchange,
   } = props.ticker.current;
+ 
+  const [display, setDisplay] = useState(true);
+  const [disabled, setDisabled] = useState();
+  const [removeClass, setRemove] = useState('');
   
+  const USD = 27;
+
   useEffect(() => {
     disableTicker.includes(ticker) ? setDisabled(true) : setDisabled(false);
+
     return () => {
       setRemove('')
     }
@@ -84,7 +85,7 @@ const Ticker = (props) => {
       <div className={s.price}>
         <span>{oldPrice === '0' && oldChange === '0' ? '-' : (USD * (price / change)).toFixed(2)} $</span>
       </div>
-      <div className={`${s.priceChange} ${changeClass(changePercent)}`}>
+      <div className={`${s.priceChange} ${!disabled ? changeClass(changePercent) : s.noChange}`}>
         <span>{
         oldPrice === '0' && oldChange === '0' ? '-' : Math.abs((USD * ((oldPrice/oldChange) - (price/change)))).toFixed(2)
         } $</span>
@@ -96,7 +97,7 @@ const Ticker = (props) => {
         <span>{dividend}</span>
       </div>
       <div className={`${s.percent} justify-end d-flex`}>
-        <div className={`${disabled ? changeClass(changePercent) : s.noChange} brd-r-5 dflt-box-sh`}>
+        <div className={`${!disabled ? changeClass(changePercent) : s.noChange} brd-r-5 dflt-box-sh`}>
           <span>
             {oldPrice === '0' && oldChange === '0' ? '-' : Math.abs(changePercent).toFixed(1)}
           </span>

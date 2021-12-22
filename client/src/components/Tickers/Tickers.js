@@ -5,26 +5,25 @@ import { uniqId } from '../../common/common';
 import Spiner from '../Spiner/Spiner'
 
 const Tickers = () => {
-  const tickers = useSelector((state) => state);
-
-  if(tickers.current.length === 0){
+  const tickersCurrent = useSelector((state) => state.current);
+  const tickerOld = useSelector((state) => state.old);
+  
+  if(tickersCurrent === 0){
     return (
       <div><Spiner/></div>
     )
   }
 
   return (
-    <>
-      <div>
-        {tickers.map((quote, i) => {
-          return <Ticker ticker={{
-            current: quote,
-            oldTicker: tickers.old.find((quoteOld) => quoteOld.ticker === quote.ticker) || quote,
-          }}
-          key={uniqId(i)}/>
-        })}
-      </div>
-    </>
+    <div>
+      {tickersCurrent.map((quote, i) => {
+        return <Ticker ticker={{
+          current: quote,
+          oldTicker: tickerOld.find((quoteOld) => quoteOld.ticker === quote.ticker) || quote,
+        }}
+        key={uniqId(i)}/>
+      })}
+    </div>
   );
 }
 

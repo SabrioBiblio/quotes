@@ -49,9 +49,6 @@
   position: relative;
   opacity: 0;
 }
-.disableClass .priceChange::before{
-  display: none;
-}
 .disableClass .price::after,
 .disableClass .priceChange::after,
 .disableClass .profit::after,
@@ -64,6 +61,7 @@
 .disableClass .percent span{
   display: none;
 }
+
 .priceChange.positive{
   color: #137333;
 }
