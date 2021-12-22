@@ -7,7 +7,7 @@ import Spiner from '../Spiner/Spiner'
 const Tickers = () => {
   const tickersCurrent = useSelector((state) => state.current);
   const tickerOld = useSelector((state) => state.old);
-  
+
   if(tickersCurrent === 0){
     return (
       <div><Spiner/></div>
@@ -15,7 +15,7 @@ const Tickers = () => {
   }
 
   return (
-    <div>
+    <ul>
       {tickersCurrent.map((quote, i) => {
         return <Ticker ticker={{
           current: quote,
@@ -23,7 +23,7 @@ const Tickers = () => {
         }}
         key={uniqId(i)}/>
       })}
-    </div>
+    </ul>
   );
 }
 
