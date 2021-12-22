@@ -27,11 +27,10 @@ const Ticker = (props) => {
   
   useEffect(() => {
     disableTicker.includes(ticker) ? setDisabled(true) : setDisabled(false);
-
     return () => {
       setRemove('')
     }
-  }, [disableTicker, ticker]);
+  }, [disableTicker]);
 
   if(!display){
     return (
@@ -62,11 +61,17 @@ const Ticker = (props) => {
   }
 
   const removeTicker = () => {
-    send('delete_quote', ticker)
+    console.log()
     setRemove(s.tickerRemove);
+    send('delete_quote', ticker)
     setTimeout(() => {
       setDisplay(false);
     }, 300)
+  }
+  if(!display){
+    return(
+      <></>
+    )
   }
   
   return (
@@ -91,8 +96,11 @@ const Ticker = (props) => {
         <span>{dividend}</span>
       </div>
       <div className={`${s.percent} justify-end d-flex`}>
-        <div className={`${changeClass(changePercent)} brd-r-5 dflt-box-sh`}>
-          {oldPrice === '0' && oldChange === '0' ? '-' : Math.abs(changePercent).toFixed(1)}%
+        <div className={`${disabled ? changeClass(changePercent) : s.noChange} brd-r-5 dflt-box-sh`}>
+          <span>
+            {oldPrice === '0' && oldChange === '0' ? '-' : Math.abs(changePercent).toFixed(1)}
+          </span>
+          %
         </div>
       </div>
       <div

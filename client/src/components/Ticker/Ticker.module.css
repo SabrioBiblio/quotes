@@ -40,8 +40,10 @@
   background: #1373333a;
 }
 .percent .noChange{
-  color: #3c4043;
   background: #3c40433a;
+}
+.percent .noChange span{
+  color: #3c4043;
 }
 .disableClass span{
   position: relative;
@@ -58,6 +60,9 @@
   left: 0;
   right: 0;
   content: '-';
+}
+.disableClass .percent span{
+  display: none;
 }
 .priceChange.positive{
   color: #137333;

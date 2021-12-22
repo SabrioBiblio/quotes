@@ -1,21 +1,21 @@
-import React, { useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useRef, useState, useEffect } from 'react';
+import { listen } from '../../common/socket';
 
 import s from './Select.module.css'
+import { uniqId } from '../../common/common';
 
-export const Select = ({doFunc, options}) => {
+export const Select = ({doFunc, optionsProps}) => {
   const selectRef = useRef('select');
-  const [optionsState, updateOptions] = useState(options);
+  const [options, updateOptions] = useState([]);
 
-  if(!optionsState.length){
-    return (
-      <select
-      id={s.intervalSelect}
-      className='dflt-box-sh'
-    >
-    </select>
-    )
-  }
+  useEffect(() => {
+    if(optionsProps.length === 0){
+      listen('send_deleted_quotes', (data) => updateOptions(data))
+    }else{
+      updateOptions(optionsProps);
+    }
+  }, [])
+
 
   return (
     <select
@@ -25,8 +25,10 @@ export const Select = ({doFunc, options}) => {
       name="select"
       ref={selectRef}
     >
-      {optionsState.map((option) => 
+      <option defaultValue="selected">default</option>
+      {options.map((option, i) => 
       <option 
+        key={uniqId(i)}
         value={option.value}
       >
       {option.optionName ? option.optionName : option}

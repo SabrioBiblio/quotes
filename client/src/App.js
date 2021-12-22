@@ -5,32 +5,26 @@ import Tickers from './components/Tickers/Tickers';
 import './App.css';
 import { Section } from './components/Section/Section';
 import { getQuotes } from './store/actions/actions';
-import { send } from './common/socket';
+import { listen, send } from './common/socket';
 import { Select } from './components/Select/Select'
-import { changeInterval, getDeletedQuotes } from './common/socket';
+import { changeInterval, addQuote } from './common/socket';
 
 const App = () => {
   const dispatch = useDispatch();
-  const [s, ss] = useState([]);
-  const a = async () => {
-    const data = await getDeletedQuotes()
-    ss(data)
-  }
+
   useEffect(() => {
-    a()
+    send('get_deleted_quotes')
     send('start');
     dispatch(getQuotes());
   }, []);
-
-
  
   return (
     <div className="App">
       <div className="container">
         <Section styleClass={'d-flex justify-sb'}>
           <Select 
-          doFunc={changeInterval}
-            options={
+            doFunc={changeInterval}
+            optionsProps={
             [
               {
                 value: 1000,
@@ -43,10 +37,16 @@ const App = () => {
               {
                 value: 5000,
                 optionName: '5s',
+              },
+              {
+                value: 500000,
+                optionName: '10s',
               }
             ]
           }/>
-        <Select options={s}/>
+        <Select 
+          doFunc={addQuote}
+          optionsProps={[]}/>
         </Section>
         <Section>
           <Tickers/>

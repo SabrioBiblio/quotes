@@ -29,7 +29,11 @@ function utcDate() {
 }
 
 function getQuotes(socket) {
-  const quotes = tickers.map(ticker => ({
+  socket.emit('ticker', quotesDataRand());
+}
+
+function quotesDataRand () {
+    return tickers.map(ticker => ({
     ticker,
     exchange: 'NASDAQ',
     price: randomValue(100, 110, 2),
@@ -39,7 +43,6 @@ function getQuotes(socket) {
     yield: randomValue(0, 2, 2),
     last_trade_time: utcDate(),
   }));
-  socket.emit('ticker', quotes);
 }
 
 function getDesiabledQuotes(socket){
@@ -83,8 +86,22 @@ socketServer.on('connection', (socket) => {
   })
 
   socket.on('delete_quote', (quote) => {
-    deletedQuotes.push(quote)
-    tickers.splice(tickers.indexOf(quote), 1)
+    const index = deletedQuotes.indexOf(quote);
+    if(index === -1){
+      deletedQuotes.push(quote)
+      tickers.splice(tickers.indexOf(quote), 1)
+      getDesiabledQuotes(socket);
+    }
+  });
+  
+  socket.on('add_quote', (quote) => {
+    const index = deletedQuotes.indexOf(quote);
+    if(index !== -1){
+      deletedQuotes.splice(index, 1);
+      tickers.push(quote);
+      getDesiabledQuotes(socket);
+      getQuotes(socket);
+    }
   });
 
   socket.on('change_interval', (interval) => {
