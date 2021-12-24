@@ -13,14 +13,14 @@
 
 ## Running the local service
 
-Open a new bash shell
-cd server
-npm install or yarn install
-npm run start or yarn start
+- Open a new bash shell
+- cd server
+- npm install or yarn install
+- npm run start or yarn start
 
 ## Running app
 
-Open a new bash shell
-cd client
-npm install or yarn install
-npm start or yarn start
+- Open a new bash shell
+- cd client
+- npm install or yarn install
+- npm start or yarn start
