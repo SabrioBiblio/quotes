@@ -1,5 +1,5 @@
 import { getStorage } from "../../common/common";
-import { listen, send } from "../../common/socket";
+import { listen } from "../../common/socket";
 
 export const initialQuotes = (payload) => {
   return {

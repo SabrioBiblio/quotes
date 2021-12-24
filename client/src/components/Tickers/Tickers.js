@@ -17,7 +17,7 @@ const Tickers = () => {
   return (
     <ul>
       {tickersCurrent.map((quote, i) => {
-        return <Ticker ticker={{
+        return <Ticker data={{
           current: quote,
           oldTicker: tickerOld.find((quoteOld) => quoteOld.ticker === quote.ticker) || quote,
         }}

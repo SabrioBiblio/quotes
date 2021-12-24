@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { React, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import Tickers from './components/Tickers/Tickers';
 import './App.css';
 import { Section } from './components/Section/Section';
 import { getQuotes } from './store/actions/actions';
-import { listen, send } from './common/socket';
+import { send } from './common/socket';
 import { Select } from './components/Select/Select'
 import { changeInterval, addQuote } from './common/socket';
 

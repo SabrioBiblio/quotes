@@ -1,6 +1,6 @@
 import React from 'react';
 import Ticker from './Ticker'
-import { render as rtlRender, screen } from "@testing-library/react";
+import { render as rtlRender } from "@testing-library/react";
 import {Provider} from 'react-redux'
 import store from "../../store";
 
@@ -12,18 +12,10 @@ const render = component => rtlRender(
 
 describe('Quote exists', () => {
   it('Quote renders', () => {
-    const ticker = render(<Ticker ticker={{
-      current: {
-        ticker:"AAPL",
-        exchange:"NASDAQ",
-        price:"101.79",
-        change:"64.38",
-        change_percent:"0.05",
-        dividend:"0.71",
-        yield:"1.50"},
-      oldTicker: []
+    const { container } = render(<Ticker ticker={{
+      current: [],
+      oldTicker: [],
     }}/>);
-    console.log(ticker)
-    expect(ticker.getByText('✕')).toBeInTheDocument()
+    expect(container.firstChild.classList.contains('tickerWrapper')).toBe(true);
   })
 })

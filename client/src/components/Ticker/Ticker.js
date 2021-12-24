@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { send } from '../../common/socket';
 
 
-const Ticker = (props) => {
+const Ticker = ({data}) => {
   const disableTicker = useSelector((state) => state.disabledTickers);
 
   const {
@@ -17,7 +17,7 @@ const Ticker = (props) => {
     dividend,
     yield: profit,
     exchange,
-  } = props.ticker.current;
+  } = data.current;
  
   const [display, setDisplay] = useState(true);
   const [disabled, setDisabled] = useState();
@@ -43,7 +43,7 @@ const Ticker = (props) => {
   const {
     price: oldPrice,
     change: oldChange
-  } = props.ticker.oldTicker;
+  } = data.oldTicker;
 
   const changePercent = oldChange !== '0' ? (((oldPrice/oldChange) - (price/change))/(price/change)) * 100 : 0;
 
