@@ -4,7 +4,7 @@ import { listen } from '../../common/socket';
 import s from './Select.module.css'
 import { uniqId } from '../../common/common';
 
-export const Select = ({doFunc, optionsProps, label}) => {
+export const Select = ({doFunc, optionsProps, label, defaultValue}) => {
   const selectRef = useRef('select');
   const [options, updateOptions] = useState([]);
 
@@ -26,7 +26,7 @@ export const Select = ({doFunc, optionsProps, label}) => {
         name="select"
         ref={selectRef}
       >
-        <option defaultValue="selected">default</option>
+        <option value={defaultValue}>default</option>
         {options.map((option, i) => 
         <option 
           key={uniqId(i)}

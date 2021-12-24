@@ -23,6 +23,7 @@ const App = () => {
       <div className="container">
         <Section styleClass={'d-flex justify-sb'}>
           <Select 
+            defaultValue="5000"
             label='Change interval'
             doFunc={changeInterval}
             optionsProps={

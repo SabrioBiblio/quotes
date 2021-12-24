@@ -69,7 +69,6 @@ function trackTickers(socket) {
 const app = express();
 app.use(cors());
 const server = http.createServer(app);
-cors
 const socketServer = io(server, {
   cors: {
     origin: "*",
