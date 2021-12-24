@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+
 import Ticker from '../Ticker/Ticker';
 import { uniqId } from '../../common/common';
 import Spiner from '../Spiner/Spiner'
@@ -8,7 +9,7 @@ const Tickers = () => {
   const tickersCurrent = useSelector((state) => state.current);
   const tickerOld = useSelector((state) => state.old);
 
-  if(tickersCurrent === 0){
+  if(tickersCurrent.length === 0){
     return (
       <div><Spiner/></div>
     )

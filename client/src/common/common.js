@@ -2,6 +2,10 @@ export const setStorage = (key, data) => {
   localStorage.setItem(key, JSON.stringify(data))
 } 
 
+export const getCurrency = () => {
+  return 27;
+}
+
 export const getStorage = (key) => {
   if(localStorage.getItem(key) === null){
     setStorage(key, [])

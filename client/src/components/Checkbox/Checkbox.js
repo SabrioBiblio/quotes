@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { initialDisableQuotes } from '../../store/actions/actions'
 
+import { initialDisableQuotes } from '../../store/actions/actions'
 import { disablingQuotes } from '../../common/common'
 import s from './Checkbox.module.css';
 

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 import s from './Ticker.module.css'
 import colors from './TickerColors/TickerColor'
 import { Checkbox } from '../Checkbox/Checkbox';
-import { useSelector } from 'react-redux';
 import { send } from '../../common/socket';
-
+import { getCurrency } from '../../common/common';
 
 const Ticker = ({data}) => {
   const disableTicker = useSelector((state) => state.disabledTickers);
@@ -23,8 +23,8 @@ const Ticker = ({data}) => {
   const [disabled, setDisabled] = useState();
   const [removeClass, setRemove] = useState('');
   
-  const USD = 27;
-
+  const USD = getCurrency();
+  
   useEffect(() => {
     disableTicker.includes(ticker) ? setDisabled(true) : setDisabled(false);
 
@@ -62,17 +62,11 @@ const Ticker = ({data}) => {
   }
 
   const removeTicker = () => {
-    console.log()
     setRemove(s.tickerRemove);
     send('delete_quote', ticker)
     setTimeout(() => {
       setDisplay(false);
     }, 300)
-  }
-  if(!display){
-    return(
-      <></>
-    )
   }
   
   return (
