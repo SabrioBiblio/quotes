@@ -1,6 +1,9 @@
-#intervalSelect{
+.select{
   padding: 3px 5px;
   font-size: 18px;
   width: 100px;
   border: 1px solid #e8eaed;
+}
+.label{
+  margin-right: 0.5rem;
 }

@@ -23,6 +23,7 @@ const App = () => {
       <div className="container">
         <Section styleClass={'d-flex justify-sb'}>
           <Select 
+            label='Change interval'
             doFunc={changeInterval}
             optionsProps={
             [
@@ -39,12 +40,13 @@ const App = () => {
                 optionName: '5s',
               },
               {
-                value: 500000,
+                value: 10000,
                 optionName: '10s',
               }
             ]
           }/>
         <Select 
+          label='Add quote'
           doFunc={addQuote}
           optionsProps={[]}/>
         </Section>

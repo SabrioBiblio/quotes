@@ -12,8 +12,17 @@ const render = component => rtlRender(
 
 describe('Quote exists', () => {
   it('Quote renders', () => {
-    const { container } = render(<Ticker ticker={{
-      current: [],
+    const { container } = render(<Ticker data={{
+      current: {
+        ticker:"AAPL",
+        exchange:"NASDAQ",
+        price:"102.38",
+        change:"50.54",
+        change_percent:"0.93",
+        dividend:"0.31",
+        yield:"0.09",
+        last_trade_tim:"2021-12-24T10:54:06.000Z",
+      },
       oldTicker: [],
     }}/>);
     expect(container.firstChild.classList.contains('tickerWrapper')).toBe(true);

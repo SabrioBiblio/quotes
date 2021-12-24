@@ -84,17 +84,21 @@ const Ticker = ({data}) => {
       </div>
       <div className={s.price}>
         <span>{oldPrice === '0' && oldChange === '0' ? '-' : (USD * (price / change)).toFixed(2)} $</span>
+        <span className={s.tooltip}>Quote price change per tick</span>
       </div>
       <div className={`${s.priceChange} ${!disabled ? changeClass(changePercent) : s.noChange}`}>
         <span>{
         oldPrice === '0' && oldChange === '0' ? '-' : Math.abs((USD * ((oldPrice/oldChange) - (price/change)))).toFixed(2)
         } $</span>
+        <span className={s.tooltip}>Price change per tick</span>
       </div>
       <div className={s.profit}>
         <span>{profit}</span>
+        <span className={s.tooltip}>Profit</span>
       </div>
       <div className={s.dividend}>
         <span>{dividend}</span>
+        <span className={s.tooltip}>Dividend</span>
       </div>
       <div className={`${s.percent} justify-end d-flex`}>
         <div className={`${!disabled ? changeClass(changePercent) : s.noChange} brd-r-5 dflt-box-sh`}>
