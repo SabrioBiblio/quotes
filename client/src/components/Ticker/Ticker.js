@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 
 import s from './Ticker.module.css'
 import colors from './TickerColors/TickerColor'
 import { Checkbox } from '../Checkbox/Checkbox';
 import { send } from '../../common/socket';
 import { getCurrency } from '../../common/common';
+import { disablingQuotes } from '../../common/common'
 
 const Ticker = ({data}) => {
-  const disableTicker = useSelector((state) => state.disabledTickers);
 
   const {
     ticker,
@@ -19,19 +18,19 @@ const Ticker = ({data}) => {
     exchange,
   } = data.current;
  
+  const isDisabled = data.isDisabled;
+
   const [display, setDisplay] = useState(true);
-  const [disabled, setDisabled] = useState();
+  const [disabled, setDisabled] = useState(isDisabled);
   const [removeClass, setRemove] = useState('');
   
   const USD = getCurrency();
   
   useEffect(() => {
-    disableTicker.includes(ticker) ? setDisabled(true) : setDisabled(false);
-
     return () => {
       setRemove('')
     }
-  }, [disableTicker]);
+  }, []);
 
   if(!display){
     return (
@@ -67,6 +66,11 @@ const Ticker = ({data}) => {
     setTimeout(() => {
       setDisplay(false);
     }, 300)
+  }
+  
+  const onCheckboxChange = () => {
+    setDisabled(state => !state)
+    disablingQuotes(ticker);
   }
   
   return (
@@ -106,9 +110,8 @@ const Ticker = ({data}) => {
         className={`${s.tickerTools} d-flex justify-end align-i-center`}
       >
         <Checkbox
+          onCheckboxChange={onCheckboxChange}
           disabledState={disabled}
-          ticker={ticker}
-          updateDisable={setDisabled}
         />
         <div 
           onClick={() => removeTicker()}

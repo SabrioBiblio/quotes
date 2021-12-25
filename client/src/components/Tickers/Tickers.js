@@ -1,13 +1,14 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { getCurrentTickers, getDisabledTickers, getTickerOld } from '../../store/selectors/selectors';
 
-import Ticker from '../Ticker/Ticker';
-import { uniqId } from '../../common/common';
-import Spiner from '../Spiner/Spiner'
+import Spiner from '../Spiner/Spiner';
+import { TickerList } from '../TickerList/TickerList';
 
 const Tickers = () => {
-  const tickersCurrent = useSelector((state) => state.current);
-  const tickerOld = useSelector((state) => state.old);
+  const tickersCurrent = useSelector(getCurrentTickers);
+  const tickerOld = useSelector(getTickerOld);
+  const disabledTickers = useSelector(getDisabledTickers);
 
   if(tickersCurrent.length === 0){
     return (
@@ -16,15 +17,7 @@ const Tickers = () => {
   }
 
   return (
-    <ul>
-      {tickersCurrent.map((quote, i) => {
-        return <Ticker data={{
-          current: quote,
-          oldTicker: tickerOld.find((quoteOld) => quoteOld.ticker === quote.ticker) || quote,
-        }}
-        key={uniqId(i)}/>
-      })}
-    </ul>
+    <TickerList tickersCurrent={tickersCurrent} tickerOld={tickerOld} disabledTickers={disabledTickers}/>
   );
 }
 
